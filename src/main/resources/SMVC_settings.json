@@ -1,0 +1,15 @@
+{
+	"servername":"",
+	"serverhost":"localhost",
+	"serverport":4242,
+	"serverkey":"",
+	"votereward":0,
+	"passthrough":"",
+	"adminpassword":"",
+	"throttle":500,
+	"revertonfailclaim":"true",
+	"messages":{
+		"start":"Checking for new votes...",
+		"vote":"%player voted for the server!"
+	}
+}
