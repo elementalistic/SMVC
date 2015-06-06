@@ -33,7 +33,7 @@ public class VoteCheck {
 		}
 		JSONObject settings = Json.getObj(new String(encoded, StandardCharsets.UTF_8));
 
-		if (Json.getPath(settings, "messages/start") != ""){
+		if (Json.getPath(settings, "messages/start").toString().length() != 0){
 			execute("/chat " + Json.getPath(settings, "messages/start"), settings);
 		}
 		String url = Json.getPath(settings,"passthrough") + "http://starmade-servers.com/api/?object=servers&element=votes&key=" + Json.getPath(settings,"serverkey");
@@ -74,7 +74,7 @@ public class VoteCheck {
 								out("	Failed Claim!");
 								}
 							}else{
-								if (message != ""){
+								if (message.toString().length() != 0){
 									String uMessage = message.replace("%player", vote.get("nickname").toString());
 									execute("/chat " + uMessage, settings);
 								}
