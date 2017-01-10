@@ -3,6 +3,8 @@ package starMade;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -51,9 +53,16 @@ public class VoteCheck {
 				String url2 = "";
 				if (Integer.parseInt(vote.get("claimed").toString()) == 0 ){
 					out(vote.get("nickname") + " Vote Detected. Checking...");
+					String nicknameenc = "";
+					try {
+						nicknameenc = URLEncoder.encode(vote.get("nickname").toString(), "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						out("Unsupported Encoding Exception, you don't support UTF-8?  Skipping");
+						continue;
+					}
 					url2 = Json.getPath(settings,"passthrough") 
 							+ "https://starmade-servers.com/api/?object=votes&element=claim&key=" 
-							+ Json.getPath(settings,"serverkey") + "&username=" + vote.get("nickname");
+							+ Json.getPath(settings,"serverkey") + "&username=" + nicknameenc;
 					Integer content2 = Integer.parseInt(HttpRequest.get(url2).body());
 					if (content2 == 1){
 						out("	Unclaimed");
@@ -64,7 +73,7 @@ public class VoteCheck {
 							String url3 = "";
 							url3 = Json.getPath(settings,"passthrough") 
 									+ "https://starmade-servers.com/api/?action=post&object=votes&element=claim&key=" 
-									+ Json.getPath(settings,"serverkey") + "&username=" + vote.get("nickname");
+									+ Json.getPath(settings,"serverkey") + "&username=" + nicknameenc;
 							Integer content3 = Integer.parseInt(HttpRequest.get(url3).body());
 							if (content3 != 1){
 								if (settings.get("revertonclaimfail") == "true"){
